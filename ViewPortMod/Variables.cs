@@ -14,18 +14,17 @@ namespace ViewPortMod
         public static List<ViewPort> viewPorts;
         public static bool inViewPortView = false;
 
-        public static List<ViewPort> FindAllViewPorts()
+        public static void FindAllViewPorts()
         {
             List<ViewPort> list = new List<ViewPort>();
             foreach (GameObject gameobject in UnityEngine.Object.FindObjectsOfType<GameObject>())
             {
                 if (gameobject.name.Contains("ViewPort"))
                 {
-                    list.Add(new ViewPort(gameobject.transform));
+                    viewPorts.Add(new ViewPort(gameobject.transform));
                 }
 
             }
-            return list;
         }
         [HarmonyPatch(typeof(PLGlobal), "EnterNewGame")]
         class StartPatch

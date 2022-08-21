@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,36 @@ using HarmonyLib;
 using UnityEngine;
 namespace ViewPortMod
 {
-    [HarmonyPatch(typeof(PLPlayer),"Update")]
-    internal class PLPlayerPatch
+   
+    [HarmonyPatch(typeof(PLGlobal), "EnterNewGame")]
+    internal class EnterGamePatch
     {
-        private float nextActionTime = 0.0f;
-        public float period = 0.1f;
-        public static void Postfix(PLPlayer __instance)
+        public static void Postfix(PLGlobal __instance)
         {
-            if(__instance != null && PLEncounterManager.Instance.PlayerShip != null && !Variables.Initialized)
+            if (PLEncounterManager.Instance.PlayerShip != null && !Variables.Initialized)
             {
-                Variables.viewPorts = Variables.FindAllViewPorts();
+                __instance.StartCoroutine(new Wrapper().FindAllViewPortsCoroutine());
                 Variables.Initialized = true;
+            }
+        }
+
+        
+
+        internal class Wrapper
+        {
+            public IEnumerator FindAllViewPortsCoroutine()
+            {
+                yield return new WaitForSeconds(5f);
+                Variables.FindAllViewPorts();
+
             }
         }
     }
 
-    
+
+
+
+
+
 
 }
