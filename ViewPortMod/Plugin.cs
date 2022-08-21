@@ -17,6 +17,6 @@ namespace ViewPortMod
         public override string Author => "Rayman";
         public override string ShortDescription => "Adds functionality to viewports";
         public override string Name => "ViewPortMod";
-        public override string Version => "0.0.4";
+        public override string Version => "0.0.5";
     }
 }
