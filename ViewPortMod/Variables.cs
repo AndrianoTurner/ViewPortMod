@@ -11,7 +11,7 @@ namespace ViewPortMod
     internal class Variables
     {
         public static bool Initialized;
-        public static List<ViewPort> viewPorts;
+        public static List<ViewPort> viewPorts = new List<ViewPort>();
         public static bool inViewPortView = false;
 
         public static void FindAllViewPorts()
@@ -26,19 +26,7 @@ namespace ViewPortMod
 
             }
         }
-        [HarmonyPatch(typeof(PLGlobal), "EnterNewGame")]
-        class StartPatch
-        { 
-            static void Postfix()
-            {
-                viewPorts = new List<ViewPort>();
-                inViewPortView = false;
-                Initialized = false;
-#if DEBUG
-                PulsarModLoader.Utilities.Logger.Info("Variables.StartPatch::Postfix");
-#endif
-            }
-        }
+  
         
     }
 }

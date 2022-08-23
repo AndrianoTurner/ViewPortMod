@@ -15,6 +15,8 @@ namespace ViewPortMod
             {
                 Variables.Initialized = false;
                 Variables.inViewPortView = false;
+
+                __instance.StartCoroutine(new EnterGamePatch.Wrapper().FindAllViewPortsCoroutine());
             }
         }
     }

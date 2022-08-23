@@ -17,6 +17,7 @@ namespace ViewPortMod
         {
             if (PLEncounterManager.Instance.PlayerShip != null && !Variables.Initialized)
             {
+                Variables.inViewPortView = false;
                 __instance.StartCoroutine(new Wrapper().FindAllViewPortsCoroutine());
                 Variables.Initialized = true;
             }

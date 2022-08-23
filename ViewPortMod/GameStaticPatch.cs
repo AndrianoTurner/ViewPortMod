@@ -12,42 +12,46 @@ namespace ViewPortMod
     {
         public static void Postfix(PLGameStatic __instance)
         {
-            if (__instance != null && PLNetworkManager.Instance.MyLocalPawn != null)
+            if (__instance != null && Variables.Initialized && PLNetworkManager.Instance.MyLocalPawn != null)
             {
-                foreach (ViewPort view in Variables.viewPorts)
+                if (Variables.viewPorts != null)
                 {
-                    if (view.transform != null && Vector3.SqrMagnitude(PLNetworkManager.Instance.MyLocalPawn.transform.position - view.transform.position) < 4f)
+                    foreach (ViewPort view in Variables.viewPorts)
                     {
-                        if(Time.unscaledTime - view.ControllerChange > 0.2f)
+                        if (view.transform != null && Vector3.SqrMagnitude(PLNetworkManager.Instance.MyLocalPawn.transform.position - view.transform.position) < 4f)
                         {
-                            if (!Variables.inViewPortView)
+                            if (Time.unscaledTime - view.ControllerChange > 0.2f)
                             {
-                                
-                                PLGlobal.Instance.SetBottomInfo("", "Use Viewport ", "", "activate_station");
-                                if (PLInput.Instance.GetButtonUp(PLInputBase.EInputActionName.activate_station))
+                                if (!Variables.inViewPortView)
                                 {
-                                    view.ControllerChange = Time.unscaledTime;
-                                    Variables.inViewPortView = true;
-                                    PLCameraSystem.Instance.ChangeCameraMode(new PLCameraMode_Pilot(PLNetworkManager.Instance.LocalPlayer.StartingShip));
 
+                                    PLGlobal.Instance.SetBottomInfo("", "Use Viewport ", "", "activate_station");
+                                    if (PLInput.Instance.GetButtonUp(PLInputBase.EInputActionName.activate_station))
+                                    {
+                                        view.ControllerChange = Time.unscaledTime;
+                                        Variables.inViewPortView = true;
+                                        PLCameraSystem.Instance.ChangeCameraMode(new PLCameraMode_Pilot(PLNetworkManager.Instance.LocalPlayer.StartingShip));
+
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                PLGlobal.Instance.SetBottomInfo("", "", "", "");
-                                if (PLInput.Instance.GetButtonUp(PLInputBase.EInputActionName.activate_station))
+                                else
                                 {
-                                    Variables.inViewPortView = false;
-                                    PLCameraSystem.Instance.ChangeCameraMode(new PLCameraMode_LocalPawn());
+                                    PLGlobal.Instance.SetBottomInfo("", "", "", "");
+                                    if (PLInput.Instance.GetButtonUp(PLInputBase.EInputActionName.activate_station))
+                                    {
+                                        Variables.inViewPortView = false;
+                                        PLCameraSystem.Instance.ChangeCameraMode(new PLCameraMode_LocalPawn());
+                                    }
                                 }
                             }
+
+
+
+
                         }
-                        
-                        
-                     
-                        
                     }
                 }
+                
             }
             
             
